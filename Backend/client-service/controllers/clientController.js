@@ -4,7 +4,7 @@ async function getEvents(req, res) {
 
     try {
         const events = await clientModel.getEvents();
-        res.status(201).json(events);
+        res.status(200).json(events);
     } catch (err) {
         console.error("Failed to get event: ", err.message);
         res.status(500).json({ error: err.message });
@@ -30,8 +30,15 @@ async function getAnEvent(req, res){
 
     async function purchaseTicket(req,res){
         try{
-            const event_tickets = req.params.event_id;
-            res.status(200).json(event_tickets);
+            const event_id = parseInt(req.params.id);
+            console.log('Ticket is being purchased for event: ', event_id);
+            
+            const result = await clientModel.purchaseTicket(event_id);
+
+            console.log('your transaction was successful:', result);
+
+            res.status(200).json(result);
+
         } catch(err){
             console.error("failed to purchase ticket: ", err.message);
             res.status(500).json({error: "Server error"})
