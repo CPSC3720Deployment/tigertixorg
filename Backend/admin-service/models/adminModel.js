@@ -40,7 +40,7 @@ const createEvent = (event_name, event_date, event_tickets, event_location) =>
 };
 
 
-const createTicket = (event_id, ticket_availability, ticket_price, ticket_type) => 
+const createTicket = (event_id, ticket_price, ticket_type, ticket_type) => 
 {
     return new Promise((resolve, reject) => 
     {
