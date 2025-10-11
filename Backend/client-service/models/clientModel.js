@@ -41,7 +41,8 @@ const purchaseTicket = (event_id) => {
             }
             resolve(
             {
-                event_tickets: event_tickets
+                message: 'Successfully purchased ticket',
+                event_id: event_id
             });                  
         });
     });

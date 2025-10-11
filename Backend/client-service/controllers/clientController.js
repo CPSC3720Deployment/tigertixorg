@@ -4,7 +4,7 @@ async function getEvents(req, res) {
 
     try {
         const events = await clientModel.getEvents();
-        req.staus(201).json(events);
+        res.status(201).json(events);
     } catch (err) {
         console.error("Failed to get event: ", err.message);
         res.status(500).json({ error: err.message });
@@ -19,7 +19,7 @@ async function getAnEvent(req, res){
             const event = await clientModel.getAnEvent(event_id);
 
             if(!event){
-                return res.staus(404).json({error: "Event not found"});
+                return res.status(404).json({error: "Event not found"});
             }
             res.status(200).json(event)
         } catch(err){
