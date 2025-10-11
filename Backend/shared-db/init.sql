@@ -10,7 +10,7 @@ CREATE TABLE Event (
     event_id INTEGER PRIMARY KEY AUTOINCREMENT,
     event_name TEXT NOT NULL,
     event_date TEXT NOT NULL,
-    event_tickets INTEGER NOT NULL,
+    event_tickets INTEGER NOT NULL, --how many tickets are available
     event_location TEXT NOT NULL
 
 );
