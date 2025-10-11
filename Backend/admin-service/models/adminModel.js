@@ -48,7 +48,7 @@ const createTicket = (event_id, ticket_availability, ticket_price, ticket_type) 
         const ticketQuery = `INSERT INTO Ticket (event_id, ticket_availability, ticket_price, ticket_type) VALUES (?, ?, ?, ?)`;
 
 
-        db.run(ticketQuery, [event_id, ticket_availability, ticket_price, ticket_price], function(err) 
+        db.run(ticketQuery, [event_id, ticket_availability, ticket_price, ticket_type], function(err) 
         {
             //error handling
             if (err) 
