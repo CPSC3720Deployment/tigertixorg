@@ -11,25 +11,21 @@ const db = new sqlite3.Database(dbPath, (err) => {
     });
 
  const getEvents = () => {
-    db.all("SELECT * FROM Event", [], (err, rows) => {
-            if (err) {
-                console.error(err.message);
-                return;
-            }
-            rows.forEach((row) => {
-                console.log(row.name); 
-            });
+     return new Promise((resolve, reject) =>{
+        db.all("SELECT * FROM Event", [], (err, rows) => {
+            if (err) reject(err);
+            else resolve(rows);
         });
+    });
 
 };
 
 const getAnEvent = (event_id) => { 
-    db.get("SELECT * FROM Event WHERE event_id = ?" [event_id], (err, row) => {
-            if (err) {
-                console.error(err.message);
-                return;
-            }
-            console.log(row)
+    return new Promise((resolve, reject) => {
+        db.get("SELECT * FROM Event WHERE event_id = ?" [event_id], (err, row) => {
+            if(err) reject(err);
+            else resolve(row);
+        });  
 });
 }
 
