@@ -47,4 +47,4 @@ const purchaseTicket = (event_id) => {
     });
 }
 
- module.exports = { getEvents, getAnEvent };
+ module.exports = { getEvents, getAnEvent, purchaseTicket};

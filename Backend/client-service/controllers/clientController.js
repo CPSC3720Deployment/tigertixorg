@@ -28,5 +28,15 @@ async function getAnEvent(req, res){
         }
     }
 
-module.exports = {getEvents, getAnEvent};
+    async function purchaseTicket(req,res){
+        try{
+            const event_tickets = req.params.event_id;
+            res.status(200).json(event_tickets);
+        } catch(err){
+            console.error("failed to purchase ticket: ", err.message);
+            res.status(500).json({error: "Server error"})
+        }
+    }
+
+module.exports = {getEvents, getAnEvent, purchaseTicket};
 
