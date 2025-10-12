@@ -2,18 +2,8 @@ import logo from './logo.png';
 import './App.css';
 import { useEffect, useState } from 'react';
 
-/**
- * App component
- * @component
- * @returns {JSX.Element} Rendered application with header, main event list, and footer
- * @type {[Array<Object>, Function]}
- * @description State to hold event data fetched from the backend
- * Each event object has: { event_id, event_name, event_date, event_tickets }
- */
-
 function App() {
   const [events, setEvents] = useState([]);
-  const [message, setMessage] = useState('');
 
   useEffect(() => {
     fetch('http://localhost:6001/api/events')
@@ -21,16 +11,6 @@ function App() {
       .then(data => setEvents(data))
       .catch(err => console.error('Error fetching events:', err));
   }, []);
-
- /**
-   * Handles ticket purchase for a specific event
-   * 
-   * @async
-   * @function
-   * @param {number} eventId - ID of the event for which to purchase a ticket
-   * @param {string} eventName - Name of the event
-   * @returns {Promise<void>}
-   */
 
   const buyTicket = async (eventId, eventName) => {
     try {
@@ -50,52 +30,21 @@ function App() {
           : ev
       ));
       
-      setMessage('SUCCESS: Ticket purchased successfully for ' + eventName);
-      setTimeout(() => setMessage(''), 3000);
+      alert('Ticket purchased successfully!');
       
     } catch (err) {
       console.error(err);
-      setMessage('ERROR: ' + err.message);
-      setTimeout(() => setMessage(''), 3000);
+      alert('Failed to purchase ticket');
     }
   };
 
-/**
- * @returns {JSX.Element} The main UI layout for the TigerTix app.
- * @description Renders the TigerTix interface including:
- *  - **Header:** Displays the logo (decorative, aria-hidden) and app title.
- *  - **Main Section:** Lists all events. Each event card includes details and a ticket button
- *    with dynamic text ("Buy Ticket"/"Sold Out") and ARIA labels for accessibility.
- *  - **Footer:** Shows © 2025 TigerTix. All rights reserved.
- */
-
   return (
     <div className="App">
-      {/* Header Section */}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="" aria-hidden="true" />
         <h1>TigerTix Event Tickets</h1>
-        
-        {/* Live region for screen reader announcements */}
-        {message && (
-          <div 
-            role="status"
-            aria-live="polite" 
-            aria-atomic="true"
-            style={{
-              padding: '10px 20px',
-              margin: '10px 0',
-              backgroundColor: message.includes('SUCCESS') ? '#4CAF50' : '#f44336',
-              color: 'white',
-              borderRadius: '5px'
-            }}
-          >
-            {message}
-          </div>
-        )}
       </header>
 
-      {/* Main Content */}
       <main className="App-main">
         {events.length === 0 ? (
           <p>Loading events...</p>
@@ -127,7 +76,6 @@ function App() {
         )}
       </main>
 
-      {/* Footer */}
       <footer className="App-footer">
         <p>&copy; 2025 TigerTix. All rights reserved.</p>
       </footer>
