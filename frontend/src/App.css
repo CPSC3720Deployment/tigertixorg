@@ -1,3 +1,9 @@
+
+/*
+App container
+Centers content, sets minimum height to full viewport, and uses flex column layout
+*/
+
 .App {
   text-align: center;
   min-height: 100vh;
@@ -5,11 +11,21 @@
   flex-direction: column;
 }
 
+/*
+App header
+Sets background color, text color, and padding
+*/
+
 .App-header {
   background-color: #282c34;
   color: white;
   padding: 2rem;
 }
+
+/*
+App logo
+Controls logo size and visual opacity
+*/
 
 .App-logo {
   height: 40vmin;
@@ -17,11 +33,21 @@
   pointer-events: none;
 }
 
+/*
+Main content area
+Fills remaining vertical space and sets background
+*/
+
 .App-main {
   flex: 1; /* grow to fill remaining space */
   padding: 2rem;
   background-color: #1c1f26;
 }
+
+/*
+Event card styling
+Centers card horizontally, adds border, padding, rounded corners, and text color
+*/
 
 .event-card {
   margin: 1rem;
@@ -33,6 +59,11 @@
   margin-right: 30%;
   color:#ccc
 }
+
+/*
+App footer
+Matches main section background, lighter text, and padding
+*/
 
 .App-footer {
   background-color: #1c1f26;

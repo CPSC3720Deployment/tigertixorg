@@ -1,3 +1,8 @@
+/**
+ * @file setup.js
+ * @description Sets up and initializes the shared SQLite database for the microservices.
+ * Handles creation of Event and Ticket tables with proper schema and foreign key constraints.
+ */
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
@@ -14,7 +19,14 @@ const db = new sqlite3.Database(dbPath, (err) =>
         }
     });
 
-const initializeDatabase = () => 
+/**
+ * Initializes the SQLite database by creating Event and Ticket tables.
+ * Drops existing tables if they exist and enforces foreign key constraints.
+ * @function
+ * @returns {Promise<void>} Resolves when the tables are successfully created.
+ * @throws {Error} Rejects if there is an error creating the tables.
+ */
+    const initializeDatabase = () => 
 {
     return new Promise((resolve, reject) => 
     {

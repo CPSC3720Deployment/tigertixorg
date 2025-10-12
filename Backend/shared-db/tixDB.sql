@@ -1,3 +1,7 @@
+-- @file init.sql
+-- @description Initializes the shared SQLite database for TigerTix.
+-- Creates Event and Ticket tables with necessary schema and foreign key constraints.
+
 --for toggling on foreign keys, which ticket needs to access
 PRAGMA foreign_keys = ON;
 

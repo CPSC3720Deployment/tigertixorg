@@ -10,6 +10,13 @@ const db = new sqlite3.Database(dbPath, (err) => {
         }
     });
 
+/**
+ * Retrieves all events from the database.
+ * @function
+ * @returns {Promise<Array<Object>>} Resolves with an array of event objects
+ * @throws {Error} If the database query fails
+ */
+
  const getEvents = () => {
      return new Promise((resolve, reject) =>{
         db.all("SELECT * FROM Event", [], (err, rows) => {
@@ -20,6 +27,13 @@ const db = new sqlite3.Database(dbPath, (err) => {
 
 };
 
+/**
+ * Retrieves a single event by its ID.
+ * @param {number} event_id - ID of the event to fetch
+ * @returns {Promise<Object>} Resolves with the event object if found, otherwise null
+ * @throws {Error} If the database query fails
+ */
+
 const getAnEvent = (event_id) => { 
     return new Promise((resolve, reject) => {
         db.get("SELECT * FROM Event WHERE event_id = ?", [event_id], (err, row) => {
@@ -28,6 +42,13 @@ const getAnEvent = (event_id) => {
         });  
     });
 }
+
+/**
+ * Purchases a ticket for a specific event by decrementing the available ticket count.
+ * @param {number} event_id - ID of the event for which to purchase a ticket
+ * @returns {Promise<Object>} Resolves with a success message and event ID
+ * @throws {Error} If no tickets are available or the database update fails
+ */
 
 const purchaseTicket = (event_id) => {
     return new Promise((resolve, reject) => {

@@ -1,4 +1,16 @@
 const adminModel = require('../models/adminModel');
+/**
+ * Controller function to create a new event.
+ * Handles POST /api/admin/events endpoint.
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body containing event details
+ * @param {string} req.body.event_name - Name of the event
+ * @param {string} req.body.event_date - Date of the event (format: YYYY-MM-DD)
+ * @param {number} req.body.event_tickets - Total number of tickets available
+ * @param {string} req.body.event_location - Location of the event
+ * @param {Object} res - Express response object
+ * @returns {Object} - Responds with the newly created event object (status 201) or error (status 500)
+ */
 
 async function createEvent(req, res){
 

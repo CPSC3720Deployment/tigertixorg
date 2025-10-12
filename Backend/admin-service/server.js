@@ -1,3 +1,10 @@
+/**
+ * @file server.js
+ * @description Entry point for the Admin microservice.
+ * Sets up Express server, middleware, routes, and initializes the SQLite database.
+ * @returns {void} Starts the Express server and listens on the specified PORT.
+ */
+
 const express = require('express');
 const cors = require('cors');
 const {initializeDatabase } = require('./setup');
@@ -5,6 +12,7 @@ const routes = require('./routes/adminRoutes');
 
 const app = express();
 const PORT = 5001;
+
 
 //Middleware to make sure we use json (I learned from using insomnia (Rodrigo))
 app.use(cors());

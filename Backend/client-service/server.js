@@ -1,3 +1,10 @@
+
+/**
+ * @file server.js
+ * @description Entry point for the Client microservice.
+ * Sets up Express server, middleware, routes, and listens on specified port.
+ */
+
 const express = require('express');
 const cors = require('cors');
 const app = express();

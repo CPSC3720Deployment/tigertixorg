@@ -1,6 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
+
+// Path to the shared SQLite database
 const dbPath = path.join(__dirname, '../../shared-db/database.sqlite');
 const db = new sqlite3.Database(dbPath, (err) => {
         if (err) {
@@ -10,6 +12,16 @@ const db = new sqlite3.Database(dbPath, (err) => {
         }
     });
 
+  /**
+ * Inserts a new event into the Event table.
+ * @param {string} event_name - Name of the event
+ * @param {string} event_date - Date of the event (format: YYYY-MM-DD)
+ * @param {number} event_tickets - Total number of tickets available
+ * @param {string} event_location - Location of the event
+ * @returns {Promise<Object>} Resolves with the newly created event object:   
+ * @throws {Error} Rejects if there is a database error
+ */
+    
 const createEvent = (event_name, event_date, event_tickets, event_location) => 
 {
     return new Promise((resolve, reject) => 
@@ -39,6 +51,15 @@ const createEvent = (event_name, event_date, event_tickets, event_location) =>
     });       
 };
 
+/**
+ * Inserts a new ticket for an event into the Ticket table.
+ * @param {number} event_id - ID of the event this ticket belongs to
+ * @param {boolean} ticket_availability - Availability of the ticket (true = available)
+ * @param {number} ticket_price - Price of the ticket
+ * @param {string} ticket_type - Type of ticket (e.g., VIP, Regular)
+ * @returns {Promise<Object>} Resolves with the newly created ticket object:
+ * @throws {Error} Rejects if there is a database error
+ */
 
 const createTicket = (event_id, ticket_availability, ticket_price, ticket_type) => 
 {
@@ -69,6 +90,5 @@ const createTicket = (event_id, ticket_availability, ticket_price, ticket_type) 
         });
     });       
 };
-
-       
+   
     module.exports = {createEvent, createTicket, db};
