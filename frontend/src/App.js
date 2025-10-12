@@ -31,7 +31,7 @@ function App() {
     <div className="App">
       {/* Header Section */}
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} className="App-logo" alt="" aria-hidden="true" />
         <h1>TigerTix Event Tickets</h1>
       </header>
 
@@ -45,6 +45,7 @@ function App() {
               <h3>{ev.event_name}</h3>
               <p>Date: {ev.event_date}</p>
               <p>Tickets Available: {ev.event_tickets}</p>
+
               <button onClick={() => buyTicket(ev.event_id)}
                disabled={ev.event_tickets === 0}
                 aria-label={
