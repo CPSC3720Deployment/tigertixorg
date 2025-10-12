@@ -2,6 +2,15 @@ import logo from './logo.png';
 import './App.css';
 import { useEffect, useState } from 'react';
 
+/**
+ * App component
+ * @component
+ * @returns {JSX.Element} Rendered application with header, main event list, and footer
+ * @type {[Array<Object>, Function]}
+ * @description State to hold event data fetched from the backend
+ * Each event object has: { event_id, event_name, event_date, event_tickets }
+ */
+
 function App() {
   const [events, setEvents] = useState([]);
 
@@ -11,6 +20,16 @@ function App() {
       .then(data => setEvents(data))
       .catch(err => console.error('Error fetching events:', err));
   }, []);
+
+  /**
+   * Handles ticket purchase for a specific event
+   * 
+   * @async
+   * @function
+   * @param {number} eventId - ID of the event for which to purchase a ticket
+   * @param {string} eventName - Name of the event
+   * @returns {Promise<void>}
+   */
 
   const buyTicket = async (eventId, eventName) => {
     try {
@@ -37,6 +56,14 @@ function App() {
       alert('Failed to purchase ticket');
     }
   };
+/**
+ * @returns {JSX.Element} The main UI layout for the TigerTix app.
+ * @description Renders the TigerTix interface including:
+ *  - **Header:** Displays the logo (decorative, aria-hidden) and app title.
+ *  - **Main Section:** Lists all events. Each event card includes details and a ticket button
+ *    with dynamic text ("Buy Ticket"/"Sold Out") and ARIA labels for accessibility.
+ *  - **Footer:** Shows © 2025 TigerTix. All rights reserved.
+ */
 
   return (
     <div className="App">
@@ -44,7 +71,8 @@ function App() {
         <img src={logo} className="App-logo" alt="" aria-hidden="true" />
         <h1>TigerTix Event Tickets</h1>
       </header>
-
+  
+    {/* Main Content */}
       <main className="App-main">
         {events.length === 0 ? (
           <p>Loading events...</p>
@@ -76,6 +104,7 @@ function App() {
         )}
       </main>
 
+   {/* Footer */}
       <footer className="App-footer">
         <p>&copy; 2025 TigerTix. All rights reserved.</p>
       </footer>
