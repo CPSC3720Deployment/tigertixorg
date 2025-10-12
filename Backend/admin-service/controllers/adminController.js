@@ -5,6 +5,11 @@ async function createEvent(req, res){
     try{
         const {event_name, event_date, event_tickets, event_location } = req.body;
 
+        if(event_tickets <= 0)
+        {
+            return res.status(400).json({error: "event_tickets must be greater than 0"});
+        }
+
         const newEvent = await adminModel.createEvent(event_name, event_date, event_tickets, event_location);    
         //const newTicket = await adminModel.createTicket(newEvent.event_id, true, ticket_price, ticket_type);
         res.status(201).json(newEvent);
