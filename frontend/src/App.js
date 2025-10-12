@@ -12,10 +12,13 @@ function App() {
       .catch(err => console.error('Error fetching events:', err));
   }, []);
 
+  //Handle buying a ticket
   const buyTicket = async (eventId) => {
     try {
       const response = await fetch(`http://localhost:6001/api/events/${eventId}/purchase`, { method: 'POST' });
       if (!response.ok) throw new Error('Failed to purchase ticket');
+      
+      //update ticket in UI
       setEvents(prev => prev.map(ev => ev.event_id === eventId ? { ...ev, event_tickets: ev.event_tickets - 1 } : ev));
       alert('Ticket purchased successfully!');
     } catch (err) {
