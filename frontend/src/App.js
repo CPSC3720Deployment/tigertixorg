@@ -38,17 +38,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>TigerTix Event Tickets</h1>
 
         {/* Event List */}
         <div>
@@ -60,7 +50,12 @@ function App() {
                 <h3>{ev.event_name}</h3>
                 <p>Date: {ev.event_date}</p>
                 <p>Tickets Available: {ev.event_tickets}</p>
-                <button onClick={() => buyTicket(ev.event_id)}>Buy Ticket</button>
+                <button 
+                  onClick={() => buyTicket(ev.event_id)}
+                  disabled={ev.event_tickets === 0}
+                >
+                  {ev.event_tickets > 0 ? 'Buy Ticket' : 'Sold Out'}
+                </button>
               </div>
             ))
           )}

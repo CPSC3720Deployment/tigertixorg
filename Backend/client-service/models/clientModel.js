@@ -31,7 +31,7 @@ const getAnEvent = (event_id) => {
 
 const purchaseTicket = (event_id) => {
     return new Promise((resolve, reject) => {
-        db.run("UPDATE Event SET event_tickets = event_tickets-1 WHERE event_id = ?", [event_id], function(err)
+        db.run("UPDATE Event SET event_tickets = event_tickets-1 WHERE event_id = ? AND event_tickets > 0", [event_id], function(err)
         {
             //error handling
             if (err) 
@@ -39,6 +39,13 @@ const purchaseTicket = (event_id) => {
                 reject(err);
                 return;
             }
+
+            if(this.changes == 0)
+            {
+                reject(new Error("No more tickets are available"));
+                return;
+            }
+
             resolve(
             {
                 message: 'Successfully purchased ticket',
