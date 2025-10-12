@@ -43,7 +43,7 @@ function App() {
               <p>Date: {ev.event_date}</p>
               <p>Tickets Available: {ev.event_tickets}</p>
               <button onClick={() => buyTicket(ev.event_id)} disabled={ev.event_tickets === 0}>
-                {ev.event_tickets > 0 ? 'Buy Ticket' : 'Sold Out'}
+                {ev.event_tickets > 0 ? 'Buy '+ ev.event_name+' Ticket' : 'Sold Out'}
               </button>
             </div>
           ))
