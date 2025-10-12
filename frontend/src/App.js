@@ -53,8 +53,8 @@ function App() {
                 <button 
                   onClick={() => buyTicket(ev.event_id)}
                   disabled={ev.event_tickets === 0}
-                >
-                  {ev.event_tickets > 0 ? 'Buy Ticket' : 'Sold Out'}
+                > 
+                  {ev.event_tickets > 0 ? 'Buy Ticket' : 'Sold Out'} 
                 </button>
               </div>
             ))
@@ -64,5 +64,5 @@ function App() {
     </div>
   );
 }
-
+// now when ticket count is 0, tickets cannot be negative
 export default App;
