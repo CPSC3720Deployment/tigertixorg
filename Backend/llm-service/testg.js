@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
+<<<<<<< Updated upstream
 async function listModels() {
   console.log('\n--- Listing Available Gemini Models ---\n');
   
@@ -26,3 +27,34 @@ async function listModels() {
 }
 
 listModels();
+=======
+async function simpleTest() {
+  console.log('Starting simple Gemini test...\n');
+  
+  try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    console.log('GoogleGenerativeAI initialized');
+    
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    console.log('Model created: gemini-1.5-flash');
+    console.log('Sending request...\n');
+    
+    const result = await model.generateContent('Say hi in 3 words');
+    console.log('Got response!');
+    
+    const response = await result.response;
+    const text = response.text();
+    
+    console.log('Response:', text);
+    console.log('\nSUCCESS!');
+    
+  } catch (error) {
+    console.error('ERROR:', error.message);
+    if (error.response) {
+      console.error('Response data:', error.response.data);
+    }
+  }
+}
+
+simpleTest();
+>>>>>>> Stashed changes

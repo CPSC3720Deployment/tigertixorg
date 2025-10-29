@@ -19,6 +19,10 @@
   "dependencies": {
     "@google/genai": "^1.27.0",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    "@google/generative-ai": "^0.24.1",
+>>>>>>> Stashed changes
 =======
     "@google/generative-ai": "^0.24.1",
 >>>>>>> Stashed changes
