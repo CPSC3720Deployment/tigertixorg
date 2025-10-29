@@ -101,3 +101,64 @@ module.exports = {
   parseBooking,
   confirmBooking,
 };
+
+// const llmModel = require('../models/llmModel');
+// const axios = require('axios');
+
+// /**
+//  * Handles event-related booking requests powered by the LLM microservice.
+//  * Takes user intent (like “book 2 tickets for Coldplay”) and performs the appropriate DB updates.
+//  * Handles POST /api/llm/book
+//  * 
+//  * @param {Object} req - Express request object
+//  * @param {Object} res - Express response object
+//  * @returns {void} Responds with 200 and booking confirmation on success, or 500 with error message on failure
+//  */
+// async function processLLMBooking(req, res) {
+//     try {
+//         const { message, user_id } = req.body;
+
+//         if (!message || !user_id) {
+//             return res.status(400).json({ error: "Missing required fields: message or user_id." });
+//         }
+
+//         console.log("Processing LLM request:", message);
+
+//         // Send user message to Gemini or OpenAI model microservice
+//         const llmResponse = await axios.post('http://localhost:8085/api/llm/interpret', { message });
+//         const parsed = llmResponse.data;
+
+//         if (!parsed || !parsed.event || !parsed.tickets) {
+//             return res.status(400).json({ error: "LLM could not interpret booking request properly." });
+//         }
+
+//         console.log("LLM interpreted:", parsed);
+
+//         // Find event by name
+//         const eventRow = await llmModel.getEventByName(parsed.event);
+//         if (!eventRow) {
+//             return res.status(404).json({ error: "Event not found." });
+//         }
+
+//         // Update ticket count
+//         await llmModel.decrementTickets(eventRow.event_id, parsed.tickets);
+
+//         // Create a booking record
+//         const booking = await llmModel.createBooking(eventRow.event_id, user_id, parsed.tickets);
+
+//         console.log("Booking successful:", booking);
+
+//         res.status(200).json({
+//             message: "Booking confirmed!",
+//             event: eventRow.event_name,
+//             tickets: parsed.tickets,
+//             booking
+//         });
+
+//     } catch (err) {
+//         console.error("Failed to process LLM booking:", err.message);
+//         res.status(500).json({ error: "Server error" });
+//     }
+// }
+
+// module.exports = { processLLMBooking };
