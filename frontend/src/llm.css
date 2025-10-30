@@ -1,5 +1,5 @@
 /* LLM Chat container */
-/* .chat-container {
+.chat-container {
   max-width: 600px;
   margin: 2rem auto;
   padding: 1rem;
@@ -12,57 +12,57 @@
   gap: 0.5rem;
   height: 400px;
   overflow-y: auto;
-} */
+}
 
 /* Individual chat messages */
-/* .chat-message {
+.chat-message {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   max-width: 80%;
   word-wrap: break-word;
-} */
+}
 
 /* User message style */
-/* .chat-message.user {
+.chat-message.user {
   align-self: flex-end;
   background-color: rgba(255, 165, 0, 0.2);
   color: #ffa500;
-} */
+}
 
 /* AI message style */
-/* .chat-message.ai {
+.chat-message.ai {
   align-self: flex-start;
   background-color: rgba(255, 255, 255, 0.1);
   color: #ccc;
-} */
+}
 
 /* Input container for text and buttons */
-/* .input-container {
+.input-container {
   display: flex;
   gap: 0.5rem;
   margin-top: 1rem;
   justify-content: center;
   flex-wrap: wrap;
-} */
+}
 
 /* Text input field */
-/* .input-container input[type="text"] {
+.input-container input[type="text"] {
   flex: 1 1 300px;
   padding: 0.5rem 1rem;
   border-radius: 6px;
   border: 1px solid rgba(184, 130, 15, 0.473);
   background-color: #1c1f26;
   color: #ccc;
-} */
+}
 
-/* .input-container input[type="text"]:focus {
+.input-container input[type="text"]:focus {
   outline: 3px solid #ffa500;
   outline-offset: 2px;
   box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.3);
-} */
+}
 
 /* Buttons for send, confirm, voice */
-/* .input-container button {
+.input-container button {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   border: none;
@@ -72,38 +72,38 @@
   transition: all 0.2s ease-in-out;
 } */
 
-/* .input-container button:hover {
+.input-container button:hover {
   background-color: #3a3f4a;
-} */
+}
 
-/* .input-container button:focus {
+.input-container button:focus {
   outline: 3px solid #ffa500;
   outline-offset: 2px;
   box-shadow: 0 0 0 3px rgba(255, 165, 0, 0.3);
-} */
+}
 
 /* Confirm booking button */
-/* .confirm-button {
+.confirm-button {
   background-color: #ffa500;
   color: #1c1f26;
   font-weight: bold;
-} */
+}
 
-/* .confirm-button:hover {
+.confirm-button:hover {
   background-color: #e69500;
-} */
+}
 
 /* Voice recording indicator */
-/* .voice-indicator {
+.voice-indicator {
   display: inline-block;
   width: 10px;
   height: 10px;
   margin-left: 0.5rem;
   border-radius: 50%;
   background-color: red;
-  animation: pulse 1s infinite; */
+  animation: pulse 1s infinite;
   /* visibility: hidden; default hidden, show when recording */
-/* }
+}
 
 .voice-indicator.active {
   visibility: visible;
@@ -125,15 +125,15 @@
 } */
 
 /* Scrollbar styling for chat container */
-/* .chat-container::-webkit-scrollbar {
+.chat-container::-webkit-scrollbar {
   width: 8px;
-} */
+}
 
-/* .chat-container::-webkit-scrollbar-track {
+.chat-container::-webkit-scrollbar-track {
   background: #1c1f26;
-} */
+}
 
-/* .chat-container::-webkit-scrollbar-thumb {
+.chat-container::-webkit-scrollbar-thumb {
   background-color: rgba(184, 130, 15, 0.473);
   border-radius: 4px;
-} */
+}
