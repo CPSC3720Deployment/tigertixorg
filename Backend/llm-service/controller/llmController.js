@@ -116,10 +116,10 @@ const axios = require('axios');
  */
 async function processLLMBooking(req, res) {
     try {
-        const { message, user_id } = req.body;
+        const { message} = req.body;
 
-        if (!message || !user_id) {
-            return res.status(400).json({ error: "Missing required fields: message or user_id." });
+        if (!message) {
+            return res.status(400).json({ error: "Missing required fields: message." });
         }
 
         console.log("Processing LLM request:", message);
@@ -144,7 +144,7 @@ async function processLLMBooking(req, res) {
         await llmModel.decrementTickets(eventRow.event_id, parsed.tickets);
 
         // Create a booking record
-        const booking = await llmModel.createBooking(eventRow.event_id, user_id, parsed.tickets);
+        const booking = await llmModel.createBooking(eventRow.event_id, parsed.tickets);
 
         console.log("Booking successful:", booking);
 
