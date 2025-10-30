@@ -1,6 +1,9 @@
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const llmModel = require('../model/llmModel');
 
+//ONCE THE PROJECT IS DONE HIDE API KEY
+//const API_KEY = require('dotenv');
+
 const apiKey = "AIzaSyBrGzToNCENjJz-maYY3-yu07NhW8_f_7A";
 const genAI = new GoogleGenerativeAI(apiKey);
 const geminiModel = genAI.getGenerativeModel({
