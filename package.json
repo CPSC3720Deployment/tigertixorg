@@ -18,14 +18,8 @@
   "license": "ISC",
   "dependencies": {
     "@google/genai": "^1.27.0",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
     "@google/generative-ai": "^0.24.1",
->>>>>>> Stashed changes
-=======
-    "@google/generative-ai": "^0.24.1",
->>>>>>> Stashed changes
+    "axios": "^1.13.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
