@@ -138,13 +138,13 @@ function decrementTickets(event_id, tickets) {
  * @param {number} tickets - Number of tickets booked
  * @returns {Promise<Object>} - Booking confirmation object
  */
-function createBooking(event_id, user_id, tickets) {
+function createBooking(event_id, tickets) {
     return new Promise((resolve) => {
         // This is a simulated booking until you make a Booking table
         resolve({
             booking_id: Math.floor(Math.random() * 100000),
             event_id,
-            user_id,
+           // user_id,
             tickets,
             status: "confirmed"
         });
