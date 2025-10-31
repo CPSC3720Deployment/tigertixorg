@@ -167,7 +167,7 @@ function App() {
 
       {/* Main Content */}
       <main className="App-main">
-        <LLM /> {/* Insert the LLM component here */}
+        <LLM events={events} setEvents={setEvents} />
 
         {events.length === 0 ? (
           <p>Loading events...</p>
