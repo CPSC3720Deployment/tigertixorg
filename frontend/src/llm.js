@@ -119,21 +119,25 @@ function LLM({ events, setEvents }) {
   };
 
   const handleConfirm = async () => {
-    if (!proposedBooking) return;
+  if (!proposedBooking) return;
 
-    setLoading(true);
-    addMessage("user", "Yes, confirm booking");
+  setLoading(true);
+  addMessage("user", "Yes, confirm booking");
 
-    try {
-      const response = await axios.post(
-        "http://localhost:7001/api/llm/confirm",
-        proposedBooking
-      );
-      const data = response.data;
+  try {
+    console.log("Sending booking to server:", proposedBooking);
 
-      addMessage("ai", data.message || "Booking confirmed!");
+    // Call backend confirm endpoint
+    const response = await axios.post(
+      "http://localhost:7001/api/llm/confirm",
+      proposedBooking
+    );
 
-      // Update events state in App.js to reflect new ticket count
+    console.log("Server response:", response.data);
+    addMessage("ai", response.data.message || "Booking confirmed!");
+
+    // Update events state in App.js to reflect new ticket count
+    if (setEvents) {
       setEvents((prevEvents) =>
         prevEvents.map((ev) =>
           ev.event_name === proposedBooking.event
@@ -147,18 +151,20 @@ function LLM({ events, setEvents }) {
             : ev
         )
       );
-
-      setProposedBooking(null);
-    } catch (err) {
-      console.error(err);
-      addMessage(
-        "ai",
-        err.response?.data?.error || "Failed to confirm booking. Please try again."
-      );
-    } finally {
-      setLoading(false);
     }
-  };
+
+    setProposedBooking(null);
+  } catch (err) {
+    console.error("Booking confirmation error:", err);
+    addMessage(
+      "ai",
+      err.response?.data?.error || "Failed to confirm booking. Please try again."
+    );
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
