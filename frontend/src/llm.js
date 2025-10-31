@@ -55,7 +55,7 @@ function LLM({ events, setEvents }) {
     };
 
     recognitionRef.current = recognition;
-  }, []);
+  };
 
   const addMessage = (role, text) => {
     setMessages((prev) => [...prev, { role, text }]);
