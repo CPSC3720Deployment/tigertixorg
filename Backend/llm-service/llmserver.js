@@ -1,3 +1,9 @@
+/**
+ * @file llmServer.js
+ * @description Entry point for the LLM microservice.
+ * Sets up the Express server, middleware, and LLM routes, then starts listening on the defined port.
+ */
+
 const express = require('express');
 const cors = require('cors');
 const llmRoute = require('./route/llmRoute');
