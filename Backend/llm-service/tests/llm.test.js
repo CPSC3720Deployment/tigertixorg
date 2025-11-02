@@ -45,7 +45,16 @@ jest.mock("@google/generative-ai", () => {
 });
 
 describe("LLM Microservice", () => {
-
+/** Description:
+ *    Parses a natural-language message and returns structured intent data such as:
+ *      - booking requests
+ *      - event lookup by name
+ *      - event lookup by date
+ *
+ * Request Body:
+ *    @param {Object} req.body
+ *    @param {string} req.body.text - The user's natural-language message.
+ */
   test("LLM parse returns booking proposal", async () => {
     const res = await request(app)
       .post("/api/llm/parse")
@@ -57,6 +66,16 @@ describe("LLM Microservice", () => {
     expect(res.body.tickets).toBe(2);
   });
 
+
+ /** Description:
+ *    Confirms a previously proposed ticket booking by deducting tickets and  
+ *    creating a booking record.
+ *
+ * Request Body:
+ *    @param {Object} req.body
+ *    @param {string} req.body.event   - Event name to finalize booking for
+ *    @param {number} req.body.tickets - Number of tickets to purchase
+ */
   test("LLM confirm endpoint decrements tickets", async () => {
     const res = await request(app)
       .post("/api/llm/confirm")

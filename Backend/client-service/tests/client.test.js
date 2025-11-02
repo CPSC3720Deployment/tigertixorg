@@ -5,6 +5,7 @@ const path = require("path");
 
 const dbPath = path.join(__dirname, "../../shared-db/database.sqlite");
 
+
 beforeAll((done) => {
   const db = new sqlite3.Database(dbPath);
   db.serialize(() => {
@@ -18,7 +19,21 @@ beforeAll((done) => {
 });
 
 describe("Client Microservice", () => {
-
+  /**
+ * Handles GET /api/events
+ * Fetches all events from the shared database.
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ *
+ * @returns {Array<Object>} - On success (200): Array of event objects.
+ *                            Each event contains:
+ *                            - event_id {number}
+ *                            - event_name {string}
+ *                            - event_date {string}
+ *                            - event_location {string}
+ *                            - event_tickets {number}
+ */
   test("GET /api/events returns all events", async () => {
     const res = await request(app).get("/api/events");
 
@@ -27,6 +42,8 @@ describe("Client Microservice", () => {
     expect(res.body[0].event_name).toBe("Client Test Event");
   });
 
+//Test for a function that is not being used. If the functio is to be used in the future,
+//this test should be uncommented.
 //   test("GET /api/events/:id returns single event", async () => {
 //     const res = await request(app).get("/api/events/1");
 
@@ -34,6 +51,18 @@ describe("Client Microservice", () => {
 //     expect(res.body.event_id).toBe(1);
 //   });
 
+
+/**
+ * Handles POST /api/events/:id/purchase
+ * Purchases a single ticket for the specified event.
+ *
+ * @param {Object} req - Express request object
+ * @param {number} req.params.id - ID of the event to purchase a ticket for
+ * @param {Object} res - Express response object
+ *
+ * @returns {Object} - On success (200): Confirmation message.
+ *                     On failure (500): Error message when event is sold out.
+ */
   test("POST /api/events/:id/purchase buys a ticket", async () => {
     const res = await request(app).post("/api/events/1/purchase");
 
@@ -42,10 +71,10 @@ describe("Client Microservice", () => {
   });
 
   test("sold-out event returns error", async () => {
-    // 2 tickets total → already purchased 1 → this buys second:
+    // 2 tickets total -> already purchased 1 -> this buys second:
     await request(app).post("/api/events/1/purchase");
 
-    // now event has 0 → next attempt should fail
+    // now event has 0 -> next attempt should fail
     const resFail = await request(app).post("/api/events/1/purchase");
 
     expect(resFail.status).toBe(500);

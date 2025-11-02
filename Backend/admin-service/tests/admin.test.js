@@ -6,6 +6,24 @@ beforeAll(async () => {
   await initializeDatabase();
 });
 
+
+/**
+ * Handles POST /api/admin/events endpoint.
+ * Creates a new event in the system.
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body containing event details
+ * @param {string} req.body.event_name - Name of the event (required, non-empty)
+ * @param {string} req.body.event_date - Date of the event in YYYY-MM-DD format (required)
+ * @param {number} req.body.event_tickets - Total number of tickets available (required, must be > 0)
+ * @param {string} req.body.event_location - Location of the event (required, non-empty)
+ *
+ * @param {Object} res - Express response object
+ *
+ * @returns {Object} - On success (201): Newly created event object including event_id.
+ *                     On client error (400): Validation error message.
+ *                     On server error (500): Server error message.
+ */
 describe("Admin Microservice - Event Creation", () => {
 
   test("creates a valid event successfully", async () => {

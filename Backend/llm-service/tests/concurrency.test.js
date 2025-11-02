@@ -9,6 +9,8 @@ const path = require("path");
 
 const dbPath = path.join(__dirname, "../../shared-db/database.sqlite");
 
+
+
 describe("Database Concurrency Protection", () => {
 
   beforeAll((done) => {
@@ -24,6 +26,15 @@ describe("Database Concurrency Protection", () => {
     db.close(done);
   });
 
+  /** Description:
+ *    Attempts to confirm bookings at the same time to ensure SQLite correctly
+ *    serializes writes and prevents overselling of tickets.
+ *
+ * Request Body (each concurrent request):
+ *    @param {Object} req.body
+ *    @param {string} req.body.event   – Event name
+ *    @param {number} req.body.tickets – Number of tickets to purchase
+ */
   test("should prevent overselling when two users book at the same time", async () => {
     const eventId = 1;
 
