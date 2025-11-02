@@ -3,6 +3,24 @@ const chrome = require("selenium-webdriver/chrome");
 const fs = require("fs");
 require("chromedriver");
 
+/**
+ * Runs end to end Selenium test for LLM driven booking
+ * 
+ * @async
+ * @function runTest
+ * @description Tests the complete user journey for booking tickets via the LLM chatbot:
+ * It first Opens TigerTix application then opens chatbot interface. Then it Inputs natural language booking request
+ *  and waits for LLM to propose booking. Finally it verifies the confirm button appears
+ * 
+ * @requires Frontend running on localhost:3000
+ * @requires LLM service running on localhost:7001
+ * @requires Client service running on localhost:6001
+ * 
+ * @throws error If chatbot toggle button not found
+ * @throws error If input box doesn't appear within 10 seconds
+ * @throws error If confirm button doesn't appear within 15 seconds
+ * 
+ */
 async function runTest() {
   let options = new chrome.Options();
   //options.addArguments("--headless=new");
