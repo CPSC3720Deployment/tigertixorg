@@ -26,6 +26,7 @@ class MockSpeechRecognition {
     this.onresult = null;
     this.onerror = null;
     this.onend = null;
+    MockSpeechRecognition.instance = this; // ADD THIS LINE - allows tests to access instance
   }
   start() {
     setTimeout(() => {
@@ -54,3 +55,18 @@ global.speechSynthesis = {
   speak: jest.fn(),
   cancel: jest.fn(),
 };
+
+// ADD THIS - Mock window.matchMedia (some components might use it)
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(),
+    removeListener: jest.fn(),
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
