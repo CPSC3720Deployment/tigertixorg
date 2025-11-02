@@ -15,9 +15,11 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/llm', llmRoute);
-app.listen(PORT, () => 
-{
+if (require.main === module) {
+  // Only start the server when running "node llmserver.js"
+  app.listen(PORT, () => {
     console.log(`LLM service is running on http://localhost:${PORT}`);
-});
+  });
+}
 
 module.exports = app;

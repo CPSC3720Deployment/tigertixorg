@@ -88,5 +88,6 @@ module.exports = {
     getEventByName,
     getEventsByDate,
     decrementTickets,
-    createBooking
+    createBooking,
+    db
 };
