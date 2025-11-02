@@ -33,7 +33,7 @@ async function runTest() {
     .build();
 
   try {
-    const BASE_URL = "http://localhost:3000";
+    const BASE_URL = "http://localhost:5000";
 
     console.log("Opening application...");
     await driver.get(BASE_URL);
