@@ -13,7 +13,7 @@ const { login, me, authenticateToken } = require("../controllers/loginController
  * @access Public
  * 
  * @body {string} identifier - User's email or username
- * @body {string} password - User password
+ * @body {string} password - User's password
  * 
  * @returns {Object} { message: string, token: string }
  * @throws {400} If identifier or password missing

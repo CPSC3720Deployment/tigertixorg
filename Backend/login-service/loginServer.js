@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const loginRoutes = require("./routes/loginRoutes");
-const registerRoutes = require("./routes/registerRoutes");
+const loginRoutes = require("./routes/loginRoute");
+const registerRoutes = require("./routes/registerRoute");
 const sqlite3 = require("sqlite3").verbose();
 
 const app = express();

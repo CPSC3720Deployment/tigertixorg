@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { hashPassword, comparePassword } = require("../utils/hash");
-const userModel = require("../models/userModel");
+const userModel = require("../models/loginModel");
 const jwt = require("jsonwebtoken");
 
 // JWT configuration
