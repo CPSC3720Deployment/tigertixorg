@@ -6,7 +6,12 @@
   "type": "commonjs",
   "scripts": {
     "setup-env": "node setup-envs.js",
-    "start": "node server.js",
+    "start:client": "node Backend/client-service/server.js",
+    "start:llm": "node Backend/llm-service/llmserver.js",
+    "start:login": "node Backend/login-service/loginServer.js",
+    "start:admin": "node Backende/admin-service/server.js",
+    "start": "npm run start:client && npm run start:llm && npm run start:login",
+
     "dev": "nodemon server.js",
     "test:frontend": "cd frontend && npm test -- --watchAll=false",
     "test:admin": "npx jest Backend/admin-service/tests --runInBand",
