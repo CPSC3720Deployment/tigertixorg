@@ -1,9 +1,10 @@
+require("dotenv").config();
 const { hashPassword, comparePassword } = require("../utils/hash");
 const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
 // JWT configuration
-const JWT_SECRET = "your_super_secret_key"; // Replace with process.env.JWT_SECRET in production
+const JWT_SECRET = process.env.JWT_SECRET; // Replace with process.env.JWT_SECRET in production
 const JWT_EXPIRES_IN = "30m"; // token expires in 30 minutes
 
 // ============================
