@@ -22,7 +22,7 @@ function createEnv(servicePath, content) {
 createEnv("Backend/login-service", `
 PORT=8001
 JWT_SECRET=vino_della_bella_gnocca
-DATABASE_PATH=./login.sqlite
+DATABASE_PATH=./db/login.sqlite
 `);
 
 // -----------------------------
