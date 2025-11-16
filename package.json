@@ -7,10 +7,10 @@
   "scripts": {
     "setup-env": "node setup-envs.js",
     "start:front": "cd frontend && npm start",
-    "start:client": "node Backend/client-service/server.js",
-    "start:llm": "node Backend/llm-service/llmserver.js",
-    "start:login": "node Backend/login-service/loginServer.js",
-    "start:admin": "node Backend/admin-service/server.js",
+    "start:client": "cd Backend/client-service && node server.js",
+    "start:llm": "cd Backend/llm-service && nodellmserver.js",
+    "start:login": "cd Backend/login-service && node loginServer.js",
+    "start:admin": "cd Backend/admin-service && node server.js",
     "start": "concurrently \"npm run start:client\" \"npm run start:llm\" \"npm run start:login\" \"npm run start:front\"",
     "dev": "nodemon server.js",
 
