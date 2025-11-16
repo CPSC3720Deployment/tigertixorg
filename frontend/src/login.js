@@ -73,7 +73,8 @@ export default function Login({ onLogin }) {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2 aria-label={isRegister ? "Create Account" : "Log In"}>
+        {/* 🔹 Heading visually shown, hidden from screen readers */}
+        <h2 aria-hidden="true">
           {isRegister ? "Create Account" : "Log In"}
         </h2>
 
@@ -84,19 +85,19 @@ export default function Login({ onLogin }) {
                 type="text"
                 name="username"
                 placeholder="Username"
-                aria-label="Registration username"
                 value={form.username}
                 onChange={handleChange}
                 required
+                aria-label="Username"
               />
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
-                aria-label="Registration email"
                 value={form.email}
                 onChange={handleChange}
                 required
+                aria-label="Email"
               />
             </>
           )}
@@ -106,10 +107,10 @@ export default function Login({ onLogin }) {
               type="text"
               name="identifier"
               placeholder="Email or Username"
-              aria-label="Login identifier input"
               value={form.identifier}
               onChange={handleChange}
               required
+              aria-label="Email or Username"
             />
           )}
 
@@ -117,24 +118,15 @@ export default function Login({ onLogin }) {
             type="password"
             name="password"
             placeholder="Password"
-            aria-label={isRegister ? "Registration password" : "Login password"}
             value={form.password}
             onChange={handleChange}
             required
+            aria-label="Password"
           />
 
-          {error && (
-            <p className="error" aria-live="assertive">
-              {error}
-            </p>
-          )}
+          {error && <p className="error">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="submit-btn"
-            aria-label={isRegister ? "Submit registration" : "Submit login"}
-          >
+          <button type="submit" disabled={loading} className="submit-btn">
             {loading ? "Loading…" : isRegister ? "Register" : "Log In"}
           </button>
         </form>
@@ -144,13 +136,15 @@ export default function Login({ onLogin }) {
           <button
             type="button"
             className="toggle-link"
-            aria-label={
-              isRegister ? "Switch to login form" : "Switch to registration form"
-            }
             onClick={() => {
               setIsRegister(!isRegister);
               setError("");
-              setForm({ username: "", email: "", password: "", identifier: "" });
+              setForm({
+                username: "",
+                email: "",
+                password: "",
+                identifier: "",
+              });
             }}
           >
             {isRegister ? "Log In" : "Register"}
