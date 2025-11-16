@@ -49,6 +49,13 @@ const register = async (req, res) => {
     });
   } catch (err) {
     console.error("Register error:", err);
+    
+    // CRITICAL FIX: Handle race condition where duplicate insert happens
+    // between our check and insert (concurrent requests)
+    if (err.code === 'SQLITE_CONSTRAINT' || err.errno === 19) {
+      return res.status(409).json({ message: "Username or email already exists" });
+    }
+    
     res.status(500).json({ message: "Internal server error" });
   }
 };

@@ -1,17 +1,19 @@
 const sqlite3 = require("sqlite3").verbose();
-// const path = require("path");
-// require('dotenv').config();
-
-// // Use DATABASE_PATH from .env
-// const dbPath = process.env.DATABASE_PATH || path.join(__dirname, "../db/login.sqlite");
-
-//console.log(`[Model] Connecting to database at: ${dbPath}`);
 const path = require("path");
-const dbPath = path.join(__dirname, "..", "db", "login.sqlite");
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
+
+// FIX: Use DATABASE_PATH from environment variable (set by tests)
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, "..", "db", "login.sqlite");
+
+console.log(`[Model] Connecting to database at: ${dbPath}`);
+
+const db = new sqlite3.Database(dbPath, (err) => 
+{
+  if (err) 
+  {
     console.error("Failed to connect to DB:", err.message);
-  } else {
+  } 
+  else 
+  {
     console.log("Connected to the SQLite database.");
   }
 });
@@ -27,15 +29,19 @@ const db = new sqlite3.Database(dbPath, (err) => {
  * @param {string} hashedPassword
  * @returns {Promise<Object>} Resolves with the new user object
  */
-const createUser = (username, email, hashedPassword) => {
-  return new Promise((resolve, reject) => {
-    const query = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
+const createUser = (username, email, hashedPassword) => 
+  {
+    return new Promise((resolve, reject) => 
+    {
+      const query = `INSERT INTO users (username, email, password) VALUES (?, ?, ?)`;
 
-    db.run(query, [username, email, hashedPassword], function(err) {
-      if (err) {
-        reject(err);
-        return;
-      }
+      db.run(query, [username, email, hashedPassword], function(err) 
+      {
+        if (err) 
+        {
+          reject(err);
+          return;
+        }
 
       resolve({
         id: this.lastID,
@@ -56,7 +62,7 @@ const findUserByEmail = (email) => {
     const query = `SELECT * FROM users WHERE email = ?`;
     db.get(query, [email], (err, row) => {
       if (err) reject(err);
-      else resolve(row);
+      else resolve(row || null); // Return null if not found
     });
   });
 };
@@ -71,7 +77,7 @@ const findUserByUsername = (username) => {
     const query = `SELECT * FROM users WHERE username = ?`;
     db.get(query, [username], (err, row) => {
       if (err) reject(err);
-      else resolve(row);
+      else resolve(row || null); // Return null if not found
     });
   });
 };
