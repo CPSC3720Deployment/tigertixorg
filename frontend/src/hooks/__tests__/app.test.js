@@ -22,7 +22,7 @@ global.fetch = jest.fn();
  * @description Replaces actual LLM component with simple mock to avoid side effects
  */
 jest.mock('../../llm.js', () => {
-  return function MockLLM() {
+  return function MockLLM({events, setEvents}) {
     return <div data-testid="mock-llm">LLM Component</div>;
   };
 });
