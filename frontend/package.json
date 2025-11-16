@@ -17,6 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+    
   },
   "eslintConfig": {
     "extends": [
@@ -42,4 +43,6 @@
     "@testing-library/jest-dom": "^6.9.1",
     "babel-jest": "^30.2.0"
   }
+
+  
 }
