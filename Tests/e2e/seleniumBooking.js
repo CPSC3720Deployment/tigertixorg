@@ -3,6 +3,8 @@ const chrome = require("selenium-webdriver/chrome");
 const fs = require("fs");
 require("chromedriver");
 
+
+
 /**
  * Runs end to end Selenium test for LLM driven booking
  * 
@@ -47,6 +49,91 @@ async function runTest() {
     await driver.get(BASE_URL);
     await driver.sleep(1000);
 
+    console.log("Checking if already logged in...");
+
+try {
+  // Look for logout button
+  await driver.wait(
+    until.elementLocated(By.xpath("//button[text()='Logout']")),
+    3000
+  );
+  console.log("User already logged in. Logging out...");
+  const logoutBtn = await driver.findElement(By.xpath("//button[text()='Logout']"));
+  await logoutBtn.click();
+
+  // Small delay for UI update
+  await driver.sleep(1000);
+
+} catch (_) {
+  console.log("User is not logged in.");
+}
+
+console.log("Registering a new user...");
+
+// Click the "Register" button that switches the form mode
+const toggleToRegister = await driver.wait(
+  until.elementLocated(By.xpath("//button[contains(text(), 'Register')]")),
+  3000
+);
+
+// Ensure it is actually interactive
+await driver.wait(until.elementIsVisible(toggleToRegister), 3000);
+await driver.wait(until.elementIsEnabled(toggleToRegister), 3000);
+
+await toggleToRegister.click();
+await driver.sleep(500); // small pause so React updates UI
+
+// Generate user credentials
+const username = "testuser" + Date.now();
+const email = `test_${Date.now()}@example.com`;
+const password = "Password123!";
+
+// Wait for register form fields
+await driver.wait(until.elementLocated(By.css("input[name='username']")), 5000);
+
+// Fill fields
+await driver.findElement(By.css("input[name='username']")).sendKeys(username);
+await driver.findElement(By.css("input[name='email']")).sendKeys(email);
+await driver.findElement(By.css("input[name='password']")).sendKeys(password);
+
+// Submit registration
+await driver.findElement(By.css("button.submit-btn")).click();
+
+// Wait for success alert
+try {
+  await driver.wait(until.alertIsPresent(), 5000);
+  const alert = await driver.switchTo().alert();
+  console.log("Dismissing alert:", await alert.getText());
+  await alert.accept();
+} catch (e) {
+  console.log("No registration alert appeared.");
+}
+
+
+
+await driver.sleep(1000); // let login screen load
+
+
+// =================
+// LOGIN AFTER SIGNUP
+// =================
+console.log("Logging in with new account...");
+
+// Now login with identifier + password
+await driver.findElement(By.css("input[name='identifier']")).sendKeys(email);
+await driver.findElement(By.css("input[name='password']")).sendKeys(password);
+
+// Submit login
+await driver.findElement(By.css("button.submit-btn")).click();
+
+// Wait for main app UI to appear (header with greeting)
+await driver.wait(
+  until.elementLocated(By.xpath("//span[contains(text(), 'Hi,')]")),
+  8000
+);
+
+console.log("✅ Login successful!");
+
     console.log("Opening chatbot...");
     const toggleBtn = await driver.findElement(By.css("button.chatbot-toggle"));
     await toggleBtn.click();
@@ -86,58 +173,3 @@ async function runTest() {
 }
 
 runTest();
-
-// const { Builder, By, until } = require("selenium-webdriver");
-// const chrome = require("selenium-webdriver/chrome");
-
-// async function run() {
-//   // Required Chrome options for modern Selenium
-//   let options = new chrome.Options()
-//   .addArguments("--remote-allow-origins=*")
-//   .addArguments("--disable-web-security")
-//   .addArguments("--allow-running-insecure-content")
-//   .addArguments("--ignore-certificate-errors")
-//   .addArguments("--disable-features=BlockInsecurePrivateNetworkRequests")
-//   .addArguments("--disable-gpu")
-//   .addArguments("--no-sandbox")
-//   .addArguments("--disable-dev-shm-usage")
-//   .addArguments("--start-maximized");
-
-//   let driver = await new Builder()
-//     .forBrowser("chrome")
-//     .setChromeOptions(options)
-//     .build();
-
-//   // ✅ Make sure React is reached successfully
-//   const BASE_URL = "http://localhost:5000";
-
-//   try {
-//     // ✅ Retry loading until the server is ready
-//     let loaded = false;
-//     for (let i = 0; i < 10; i++) {
-//       try {
-//         await driver.get(BASE_URL);
-//         loaded = true;
-//         break;
-//       } catch (e) {
-//         console.log("React not ready yet, retrying...");
-//         await new Promise(r => setTimeout(r, 1000));
-//       }
-//     }
-
-//     if (!loaded) {
-//       throw new Error("Could not connect to React at localhost:5000");
-//     }
-
-//     console.log("✅ React loaded in Selenium");
-
-//     // Your test steps here...
-//     await driver.wait(until.elementLocated(By.css("h1")), 5000);
-//     console.log("✅ App header found!");
-
-//   } finally {
-//     await driver.quit();
-//   }
-// }
-
-// run();
