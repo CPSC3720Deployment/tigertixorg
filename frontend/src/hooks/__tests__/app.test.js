@@ -17,9 +17,19 @@ import App from "../../App";
 global.fetch = jest.fn();
 
 /**
+ * Mock localStorage to simulate logged-in state
+ */
+const localStorageMock = {
+  getItem: jest.fn(() => 'test-token-123'),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+};
+global.localStorage = localStorageMock;
+
+/**
  * Mock llm component to isolate App component testing
  * @description Replaces actual LLM component with simple mock to avoid side effects
- * FIXED: Updated to correct path - llm.js is in src folder
  * Path from src/hooks/__tests__/app.test.js to src/llm.js is ../../llm
  */
 jest.mock('../../llm', () => {
@@ -29,18 +39,15 @@ jest.mock('../../llm', () => {
 });
 
 /**
- * Mock Login component to isolate App component testing
- * @description Replaces actual Login component with simple mock
- * Path from src/hooks/__tests__/app.test.js to src/components/login/login.js
+ * Mock Login component - auto-login synchronously
+ * @description Calls onLogin immediately to bypass authentication in tests
  */
 jest.mock('../../login', () => {
-  const React = require('react');
   return function MockLogin({ onLogin }) {
-    // Automatically login when component mounts
-    React.useEffect(() => {
+    // Call onLogin immediately (synchronously) when rendered
+    if (onLogin) {
       onLogin("test-token-123");
-    }, [onLogin]);
-    
+    }
     return null; // Don't render anything
   };
 });
@@ -61,6 +68,8 @@ jest.mock('../../login', () => {
  */
 beforeEach(() => {
   fetch.mockClear();
+  localStorageMock.getItem.mockClear();
+  localStorageMock.setItem.mockClear();
   
   fetch.mockResolvedValue({
     ok: true,
@@ -114,7 +123,9 @@ describe("App Component Rendering", () => {
    */
   test("Renders header with TigerTix title", async () => {
     render(<App />);
-    expect(screen.getByText(/TigerTix Event Tickets/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/TigerTix Event Tickets/i)).toBeInTheDocument();
+    });
   });
 
   /**
@@ -125,7 +136,9 @@ describe("App Component Rendering", () => {
    */
   test("Renders footer with copyright text", async () => {
     render(<App />);
-    expect(screen.getByText(/2025 TigerTix/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/2025 TigerTix/i)).toBeInTheDocument();
+    });
   });
 
   /**
@@ -134,9 +147,11 @@ describe("App Component Rendering", () => {
    * @postcondition "Loading events" message is displayed
    * @contract UI must provide loading feedback before data arrives
    */
-  test("Shows loading message initially", () => {
+  test("Shows loading message initially", async () => {
     render(<App />);
-    expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
+    });
   });
 });
 
@@ -335,6 +350,9 @@ describe("App Ticket Purchase", () => {
       expect(screen.getByText("Tiger Football Game")).toBeInTheDocument();
     });
     
+    // Clear previous fetch calls
+    fetch.mockClear();
+    
     fetch.mockResolvedValueOnce({
       ok: true,
       json: async () => ({ message: "Ticket purchased" })
@@ -521,11 +539,13 @@ describe("App Accessibility", () => {
    * @contract App must use semantic HTML5 landmarks for navigation
    * @contract Main content must be identifiable by screen readers
    */
-  test("Main content is within proper semantic structure", () => {
+  test("Main content is within proper semantic structure", async () => {
     render(<App />);
-    const main = screen.getByRole('main');
-    expect(main).toBeInTheDocument();
-    expect(main).toHaveClass("App-main");
+    await waitFor(() => {
+      const main = screen.getByRole('main');
+      expect(main).toBeInTheDocument();
+      expect(main).toHaveClass("App-main");
+    });
   });
 });
 
@@ -542,9 +562,11 @@ describe("App State Management", () => {
    * @postcondition Loading message displayed (events.length === 0)
    * @contract State must initialize empty to prevent undefined errors
    */
-  test("Events state initializes as empty array", () => {
+  test("Events state initializes as empty array", async () => {
     render(<App />);
-    expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
+    });
   });
 
   /**
@@ -579,8 +601,10 @@ describe("App LLM Component Integration", () => {
    * @contract App must render LLM component for booking assistance
    * @contract LLM receives events and setEvents props (verified by no errors)
    */
-  test("LLM component is rendered", () => {
+  test("LLM component is rendered", async () => {
     render(<App />);
-    expect(screen.getByTestId("mock-llm")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("mock-llm")).toBeInTheDocument();
+    });
   });
 });
