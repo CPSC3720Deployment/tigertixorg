@@ -552,10 +552,11 @@ describe("App Accessibility", () => {
   test("Main content is within proper semantic structure", async () => {
     render(<App />);
     await waitFor(() => {
-      const main = screen.getByRole('main');
-      expect(main).toBeInTheDocument();
-      expect(main).toHaveClass("App-main");
+      expect(screen.getByRole('main')).toBeInTheDocument();
     });
+    
+    const main = screen.getByRole('main');
+    expect(main).toHaveClass("App-main");
   });
 });
 
@@ -599,8 +600,9 @@ describe("App State Management", () => {
     
     await waitFor(() => {
       expect(screen.queryByText(/Loading events/i)).not.toBeInTheDocument();
-      expect(screen.getByText("Tiger Football Game")).toBeInTheDocument();
     });
+    
+    expect(screen.getByText("Tiger Football Game")).toBeInTheDocument();
   });
 });
 
