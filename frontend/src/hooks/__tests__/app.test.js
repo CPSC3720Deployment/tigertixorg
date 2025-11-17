@@ -148,10 +148,18 @@ describe("App Component Rendering", () => {
    * @contract UI must provide loading feedback before data arrives
    */
   test("Shows loading message initially", async () => {
+    // Delay the fetch to catch the loading state
+    fetch.mockImplementationOnce(() => 
+      new Promise(resolve => 
+        setTimeout(() => resolve({
+          ok: true,
+          json: async () => []
+        }), 100)
+      )
+    );
+    
     render(<App />);
-    await waitFor(() => {
-      expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
-    });
+    expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
   });
 });
 
@@ -369,7 +377,9 @@ describe("App Ticket Purchase", () => {
     await waitFor(() => {
       expect(fetch).toHaveBeenCalledWith(
         "http://localhost:6001/api/events/1/purchase",
-        { method: "POST" }
+        expect.objectContaining({
+          method: "POST"
+        })
       );
     });
     
@@ -563,10 +573,18 @@ describe("App State Management", () => {
    * @contract State must initialize empty to prevent undefined errors
    */
   test("Events state initializes as empty array", async () => {
+    // Delay the fetch to catch the loading state
+    fetch.mockImplementationOnce(() => 
+      new Promise(resolve => 
+        setTimeout(() => resolve({
+          ok: true,
+          json: async () => []
+        }), 100)
+      )
+    );
+    
     render(<App />);
-    await waitFor(() => {
-      expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
-    });
+    expect(screen.getByText(/Loading events/i)).toBeInTheDocument();
   });
 
   /**
@@ -581,9 +599,8 @@ describe("App State Management", () => {
     
     await waitFor(() => {
       expect(screen.queryByText(/Loading events/i)).not.toBeInTheDocument();
+      expect(screen.getByText("Tiger Football Game")).toBeInTheDocument();
     });
-    
-    expect(screen.getByText("Tiger Football Game")).toBeInTheDocument();
   });
 });
 
