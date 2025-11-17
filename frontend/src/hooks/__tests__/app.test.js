@@ -1,5 +1,4 @@
 /**
- \
  * @description Integration tests for the main App component of TigerTix
  * Tests event fetching, rendering, ticket purchasing, accessibility, and state management
  * 
@@ -20,10 +19,28 @@ global.fetch = jest.fn();
 /**
  * Mock llm component to isolate App component testing
  * @description Replaces actual LLM component with simple mock to avoid side effects
+ * FIXED: Updated to correct path based on your project structure
  */
-jest.mock('../../llm.js', () => {
+jest.mock('../../components/llm/llm', () => {
   return function MockLLM({events, setEvents}) {
     return <div data-testid="mock-llm">LLM Component</div>;
+  };
+});
+
+/**
+ * Mock Login component to isolate App component testing
+ * @description Replaces actual Login component with simple mock
+ */
+jest.mock('../../components/login/login', () => {
+  return function MockLogin({ onLogin }) {
+    return (
+      <div data-testid="mock-login">
+        <h2>Login Component</h2>
+        <button onClick={() => onLogin("test-token-123")}>
+          Test Login
+        </button>
+      </div>
+    );
   };
 });
 
