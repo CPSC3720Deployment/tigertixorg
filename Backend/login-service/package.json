@@ -1,0 +1,16 @@
+{
+  "name": "login-service",
+  "version": "1.0.0",
+  "main": "loginServer.js",
+  "scripts": {
+    "start": "node loginServer.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "sqlite3": "^5.1.7",
+    "dotenv": "^17.2.3",
+    "jsonwebtoken": "^9.0.2",
+    "bcrypt": "^6.0.0"
+  }
+}

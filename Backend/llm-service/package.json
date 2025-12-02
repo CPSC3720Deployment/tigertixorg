@@ -1,0 +1,15 @@
+{
+  "name": "llm-service",
+  "version": "1.0.0",
+  "main": "llmserver.js",
+  "scripts": {
+    "start": "node llmserver.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "cors": "^2.8.5",
+    "sqlite3": "^5.1.7",
+    "dotenv": "^17.2.3",
+    "@google/generative-ai": "^0.24.1"
+  }
+}
