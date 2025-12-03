@@ -76,7 +76,7 @@ if (process.env.NODE_ENV !== 'test')
 {
   app.listen(PORT, () => 
   {
-    console.log(`Auth service running on http://localhost:${PORT}`);
+    console.log(`Auth service running on port ${PORT}`);
   });
 }
 
