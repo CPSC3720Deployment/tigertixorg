@@ -157,34 +157,46 @@
 //   );
 // }
 
-
 import React, { useState } from "react";
 import "./login.css";
 
-const API_BASE = process.env.REACT_APP_AUTH_API;
+// Replace this with your actual deployed login service URL
+const API_BASE = "https://your-login-service.vercel.app/api";
 
 export default function Login({ onLogin }) {
   const [isRegister, setIsRegister] = useState(false);
-  const [form, setForm] = useState({ username: "", email: "", password: "", identifier: "" });
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    identifier: "",
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => { setForm({ ...form, [e.target.name]: e.target.value }); setError(""); };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    setError("");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); setLoading(true);
+    setError("");
+    setLoading(true);
 
     try {
       if (isRegister) {
         const { username, email, password } = form;
-        if (!username || !email || !password) throw new Error("Username, email, and password are required");
+        if (!username || !email || !password) {
+          throw new Error("Username, email, and password are required");
+        }
 
         const res = await fetch(`${API_BASE}/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, email, password }),
         });
+
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Registration failed");
 
@@ -195,21 +207,27 @@ export default function Login({ onLogin }) {
         return;
       }
 
+      // Login flow
       const { identifier, password } = form;
-      if (!identifier || !password) throw new Error("Email/username and password required");
+      if (!identifier || !password) {
+        throw new Error("Email/username and password required");
+      }
 
       const res = await fetch(`${API_BASE}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identifier, password }),
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
 
       onLogin(data.token);
     } catch (err) {
       setError(err.message);
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -220,15 +238,51 @@ export default function Login({ onLogin }) {
         <form onSubmit={handleSubmit} className="login-form">
           {isRegister && (
             <>
-              <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
-              <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={form.username}
+                onChange={handleChange}
+                required
+                aria-label="Username"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                aria-label="Email"
+              />
             </>
           )}
+
           {!isRegister && (
-            <input type="text" name="identifier" placeholder="Email or Username" value={form.identifier} onChange={handleChange} required />
+            <input
+              type="text"
+              name="identifier"
+              placeholder="Email or Username"
+              value={form.identifier}
+              onChange={handleChange}
+              required
+              aria-label="Email or Username"
+            />
           )}
-          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+            aria-label="Password"
+          />
+
           {error && <p className="error">{error}</p>}
+
           <button type="submit" disabled={loading} className="submit-btn">
             {loading ? "Loading…" : isRegister ? "Register" : "Log In"}
           </button>
@@ -239,7 +293,11 @@ export default function Login({ onLogin }) {
           <button
             type="button"
             className="toggle-link"
-            onClick={() => { setIsRegister(!isRegister); setError(""); setForm({ username: "", email: "", password: "", identifier: "" }); }}
+            onClick={() => {
+              setIsRegister(!isRegister);
+              setError("");
+              setForm({ username: "", email: "", password: "", identifier: "" });
+            }}
           >
             {isRegister ? "Log In" : "Register"}
           </button>
