@@ -337,9 +337,9 @@
 // export default LLM;
 
 
-// import React, { useState, useEffect, useRef } from "react";
-// import axios from "axios";
-// import "./llm.css";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import "./llm.css";
 
 /**
  * LLM Component — The AI chat assistant for event booking.
