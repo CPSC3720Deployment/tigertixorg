@@ -43,4 +43,10 @@ GEMINI_API_KEY=AIzaSyBrGzToNCENjJz-maYY3-yu07NhW8_f_7A
 DATABASE_PATH=./llm.sqlite
 `);
 
+
+createEnv("Backend/llm-service", `
+PORT=5001
+DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DATABASE
+`);
+
 console.log("\nAll .env files created!");
