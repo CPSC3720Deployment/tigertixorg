@@ -213,7 +213,7 @@ function App() {
 
     const validateToken = async () => {
       try {
-        const res = await fetch(`${AUTH_API}/me`, {
+        const res = await fetch(`${AUTH_API}/api/login/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Invalid token");
@@ -262,7 +262,7 @@ function App() {
         onLogin={async (token) => {
           localStorage.setItem("token", token);
           try {
-            const res = await fetch(`${AUTH_API}/me`, {
+            const res = await fetch(`${AUTH_API}/api/login/me`, {
               headers: { Authorization: `Bearer ${token}` },
             });
             if (!res.ok) throw new Error("Invalid token");
