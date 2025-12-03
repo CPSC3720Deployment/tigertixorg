@@ -160,12 +160,17 @@
 import React, { useState } from "react";
 import "./login.css";
 
-// Your Vercel login service URL
+// Replace this with your actual deployed login service URL
 const API_BASE = "https://your-login-service.vercel.app/api";
 
 export default function Login({ onLogin }) {
   const [isRegister, setIsRegister] = useState(false);
-  const [form, setForm] = useState({ username: "", email: "", password: "", identifier: "" });
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    identifier: "",
+  });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -182,13 +187,16 @@ export default function Login({ onLogin }) {
     try {
       if (isRegister) {
         const { username, email, password } = form;
-        if (!username || !email || !password) throw new Error("All fields are required");
+        if (!username || !email || !password) {
+          throw new Error("Username, email, and password are required");
+        }
 
         const res = await fetch(`${API_BASE}/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, email, password }),
         });
+
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Registration failed");
 
@@ -199,15 +207,18 @@ export default function Login({ onLogin }) {
         return;
       }
 
-      // LOGIN
+      // Login flow
       const { identifier, password } = form;
-      if (!identifier || !password) throw new Error("Email/username and password required");
+      if (!identifier || !password) {
+        throw new Error("Email/username and password required");
+      }
 
       const res = await fetch(`${API_BASE}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identifier, password }),
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
 
@@ -222,32 +233,72 @@ export default function Login({ onLogin }) {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h2>{isRegister ? "Create Account" : "Log In"}</h2>
+        <h2 aria-hidden="true">{isRegister ? "Create Account" : "Log In"}</h2>
 
         <form onSubmit={handleSubmit} className="login-form">
           {isRegister && (
             <>
-              <input type="text" name="username" placeholder="Username" value={form.username} onChange={handleChange} required />
-              <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={form.username}
+                onChange={handleChange}
+                required
+                aria-label="Username"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={form.email}
+                onChange={handleChange}
+                required
+                aria-label="Email"
+              />
             </>
           )}
 
           {!isRegister && (
-            <input type="text" name="identifier" placeholder="Email or Username" value={form.identifier} onChange={handleChange} required />
+            <input
+              type="text"
+              name="identifier"
+              placeholder="Email or Username"
+              value={form.identifier}
+              onChange={handleChange}
+              required
+              aria-label="Email or Username"
+            />
           )}
 
-          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+            aria-label="Password"
+          />
 
           {error && <p className="error">{error}</p>}
 
-          <button type="submit" disabled={loading}>
+          <button type="submit" disabled={loading} className="submit-btn">
             {loading ? "Loading…" : isRegister ? "Register" : "Log In"}
           </button>
         </form>
 
-        <p>
+        <p className="toggle-text">
           {isRegister ? "Already have an account?" : "Don't have an account?"}{" "}
-          <button type="button" onClick={() => { setIsRegister(!isRegister); setError(""); setForm({ username: "", email: "", password: "", identifier: "" }); }}>
+          <button
+            type="button"
+            className="toggle-link"
+            onClick={() => {
+              setIsRegister(!isRegister);
+              setError("");
+              setForm({ username: "", email: "", password: "", identifier: "" });
+            }}
+          >
             {isRegister ? "Log In" : "Register"}
           </button>
         </p>
