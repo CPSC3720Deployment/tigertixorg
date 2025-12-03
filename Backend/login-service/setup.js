@@ -14,7 +14,6 @@ function initializeDatabase() {
 
       console.log(`Connected to database at: ${DB_PATH}`);
 
-      db.run(
         db.run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
