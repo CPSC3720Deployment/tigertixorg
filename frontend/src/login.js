@@ -189,7 +189,7 @@ export default function Login({ onLogin }) {
         if (!username || !email || !password)
           throw new Error("Username, email, and password are required");
 
-        const res = await fetch(`${AUTH_API}/register`, {
+        const res = await fetch(`${AUTH_API}/api/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, email, password }),
@@ -209,7 +209,7 @@ export default function Login({ onLogin }) {
       if (!identifier || !password)
         throw new Error("Email/username and password required");
 
-      const res = await fetch(`${AUTH_API}/login`, {
+      const res = await fetch(`${AUTH_API}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identifier, password }),
