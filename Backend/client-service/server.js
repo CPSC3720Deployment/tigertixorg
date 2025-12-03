@@ -10,6 +10,16 @@ const cors = require('cors');
 const app = express();
 const routes = require('./routes/clientRoutes');
 
+const { initializeDatabase } = require("./setup");
+
+// after routes
+initializeDatabase().then(() => {
+  if (require.main === module) {
+    app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+  }
+});
+
+
 app.use(cors());
 app.use(express.json());
 
