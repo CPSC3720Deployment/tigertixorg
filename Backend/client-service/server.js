@@ -25,7 +25,7 @@ app.use(express.json());
 
 // Staring up the server
 app.use('/api', routes);
-const PORT = 6001;
+const PORT = process.env.PORT || 6001;
 if (require.main === module) {
   app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
 }
