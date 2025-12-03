@@ -1,57 +1,94 @@
+// // /**
+// //  * @file llmServer.js
+// //  * @description Entry point for the LLM microservice.
+// //  * Sets up the Express server, middleware, and LLM routes, then starts listening on the defined port.
+// //  */
+
+// // const express = require('express');
+// // const cors = require('cors');
+// // const llmRoute = require('./route/llmRoute');
+
+// // const app = express();
+// // const PORT = 7001;
+
+// // app.use(cors());
+// // app.use(express.json());
+
+// // app.use('/api/llm', llmRoute);
+// // if (require.main === module) {
+// //   // Only start the server when running "node llmserver.js"
+// //   app.listen(PORT, () => {
+// //     console.log(`LLM service is running on http://localhost:${PORT}`);
+// //   });
+// // }
+
+// // module.exports = app;
+
 // /**
-//  * @file llmServer.js
+//  * @file llmserver.js
 //  * @description Entry point for the LLM microservice.
-//  * Sets up the Express server, middleware, and LLM routes, then starts listening on the defined port.
+//  * Uses PostgreSQL and Google Gemini to handle ticket booking requests.
 //  */
 
+// require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 // const express = require('express');
 // const cors = require('cors');
 // const llmRoute = require('./route/llmRoute');
+// const { initializeDatabase } = require('./setup');
 
 // const app = express();
-// const PORT = 7001;
+// const PORT = process.env.PORT || 7001;
 
+// // Middleware
 // app.use(cors());
 // app.use(express.json());
 
+// // Routes
 // app.use('/api/llm', llmRoute);
-// if (require.main === module) {
-//   // Only start the server when running "node llmserver.js"
-//   app.listen(PORT, () => {
-//     console.log(`LLM service is running on http://localhost:${PORT}`);
-//   });
-// }
+
+// // Initialize database tables and then start server
+// initializeDatabase().then(() => {
+//   if (require.main === module) {
+//     app.listen(PORT, () => {
+//       console.log(`LLM service is running on http://localhost:${PORT}`);
+//     });
+//   }
+// });
 
 // module.exports = app;
 
 /**
- * @file llmserver.js
+ * @file server.js
  * @description Entry point for the LLM microservice.
- * Uses PostgreSQL and Google Gemini to handle ticket booking requests.
+ * Sets up Express server, middleware, routes, and listens on specified port.
  */
-
 require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 const express = require('express');
 const cors = require('cors');
-const llmRoute = require('./route/llmRoute');
-const { initializeDatabase } = require('./setup');
-
 const app = express();
-const PORT = process.env.PORT || 7001;
+const routes = require('./routes/llmRoutes'); // corrected to LLM routes
+const { initializeDatabase } = require("./setup");
+
+// Replace with your actual Vercel frontend URL
+const FRONTEND_URL = "https://your-frontend.vercel.app";
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: FRONTEND_URL,  // only allow requests from frontend
+  credentials: true      // allow cookies or Authorization headers
+}));
 app.use(express.json());
 
 // Routes
-app.use('/api/llm', llmRoute);
+app.use('/api/llm', routes);
 
-// Initialize database tables and then start server
+// Port
+const PORT = process.env.PORT || 7001;
+
+// Start server after database initialization
 initializeDatabase().then(() => {
   if (require.main === module) {
-    app.listen(PORT, () => {
-      console.log(`LLM service is running on http://localhost:${PORT}`);
-    });
+    app.listen(PORT, () => console.log(`LLM service running on port ${PORT}`));
   }
 });
 
