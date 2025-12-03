@@ -91,7 +91,7 @@ require("dotenv").config({ path: require("path").join(__dirname, ".env") });
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const routes = require('./routes/loginRoutes'); // use your login routes
+const routes = require('./routes/loginRoute'); // use your login routes
 const { initializeDatabase } = require("./setup");
 
 // Replace with your actual Vercel frontend URL
