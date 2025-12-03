@@ -84,45 +84,40 @@
 
 /**
  * @file server.js
- * @description Entry point for the Login microservice.
- * Sets up Express server, middleware, routes, and listens on specified port.
  */
 require("dotenv").config({ path: require("path").join(__dirname, ".env") });
+
 const express = require('express');
 const cors = require('cors');
-const app = express();
-const routes = require('./routes/loginRoute'); // use your login routes
+const routes = require('./routes/loginRoute');
 const { initializeDatabase } = require("./setup");
 
-// Replace with your actual Vercel frontend URL
+const app = express();
+
+// Your deployed frontend URL
 const FRONTEND_URL = "https://tigertixorg.vercel.app";
 
-app.use(
-  cors({
-    origin: FRONTEND_URL,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-// Fix preflight errors
-app.options("*", cors());
-
-// Middleware
+// Single clean CORS middleware
 app.use(cors({
-  origin: FRONTEND_URL,  // only allow requests from frontend
-  credentials: true      // allow cookies or Authorization headers
+  origin: FRONTEND_URL,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
+// Allow preflight
+app.options('*', cors());
+
+// Parse JSON bodies
 app.use(express.json());
 
-// Routes
-app.use('/api', routes);
+// Mount login routes correctly
+app.use("/api/login", routes);
 
 // Port
 const PORT = process.env.PORT || 8001;
 
-// Start server after database initialization
+// Start server
 initializeDatabase().then(() => {
   if (require.main === module) {
     app.listen(PORT, () => console.log(`Login service running on port ${PORT}`));
