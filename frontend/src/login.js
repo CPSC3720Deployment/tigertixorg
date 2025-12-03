@@ -157,11 +157,10 @@
 //   );
 // }
 
-import React, { useState } from "react";
-import "./login.css";
+// import React, { useState } from "react";
+// import "./login.css";
 
-// Replace this with your actual deployed login service URL
-const API_BASE = "https://your-login-service.vercel.app/api";
+const API_BASE = process.env.REACT_APP_AUTH_API; // Use Vercel-deployed login service
 
 export default function Login({ onLogin }) {
   const [isRegister, setIsRegister] = useState(false);
@@ -186,6 +185,7 @@ export default function Login({ onLogin }) {
 
     try {
       if (isRegister) {
+        // ====== REGISTER ======
         const { username, email, password } = form;
         if (!username || !email || !password) {
           throw new Error("Username, email, and password are required");
@@ -196,7 +196,6 @@ export default function Login({ onLogin }) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username, email, password }),
         });
-
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Registration failed");
 
@@ -204,10 +203,10 @@ export default function Login({ onLogin }) {
         setIsRegister(false);
         setForm({ username: "", email: "", password: "", identifier: "" });
         setLoading(false);
-        return;
+        return; // Stop here, do not proceed to login
       }
 
-      // Login flow
+      // ====== LOGIN ======
       const { identifier, password } = form;
       if (!identifier || !password) {
         throw new Error("Email/username and password required");
@@ -218,7 +217,6 @@ export default function Login({ onLogin }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ identifier, password }),
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
 
@@ -296,7 +294,12 @@ export default function Login({ onLogin }) {
             onClick={() => {
               setIsRegister(!isRegister);
               setError("");
-              setForm({ username: "", email: "", password: "", identifier: "" });
+              setForm({
+                username: "",
+                email: "",
+                password: "",
+                identifier: "",
+              });
             }}
           >
             {isRegister ? "Log In" : "Register"}
