@@ -7,7 +7,7 @@ async function initializeDatabase() {
       CREATE TABLE IF NOT EXISTS Event (
         event_id SERIAL PRIMARY KEY,
         event_name TEXT NOT NULL,
-        event_date DATE NOT NULL,
+        event_date TEXT NOT NULL,
         event_tickets INTEGER NOT NULL CHECK (event_tickets > 0),
         event_location TEXT NOT NULL
       );
