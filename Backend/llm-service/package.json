@@ -6,10 +6,11 @@
     "start": "node llmserver.js"
   },
   "dependencies": {
-    "express": "^4.21.2",
+    "@google/generative-ai": "^0.24.1",
     "cors": "^2.8.5",
-    "sqlite3": "^5.1.7",
     "dotenv": "^17.2.3",
-    "@google/generative-ai": "^0.24.1"
+    "express": "^4.21.2",
+    "pg": "^8.16.3",
+    "sqlite3": "^5.1.7"
   }
 }
