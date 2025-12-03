@@ -70,7 +70,7 @@ const routes = require('./route/llmRoute'); // corrected to LLM routes
 const { initializeDatabase } = require("./setup");
 
 // Replace with your actual Vercel frontend URL
-const FRONTEND_URL = "https://https://tigertixorg.vercel.app/";
+const FRONTEND_URL = "https://tigertixorg.vercel.app/";
 
 // Middleware
 app.use(cors({
