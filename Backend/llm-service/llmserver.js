@@ -70,25 +70,19 @@ const routes = require('./route/llmRoute'); // corrected to LLM routes
 const { initializeDatabase } = require("./setup");
 
 // Replace with your actual Vercel frontend URL
-const allowedOrigins = [
-  "https://tigertixorg.vercel.app",
-  "http://localhost:3000"
-];
+const FRONTEND_URL = "https://tigertixorg.vercel.app";
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no Origin (mobile apps, curl, etc.)
-    if (!origin) return callback(null, true);
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("❌ Blocked by CORS:", origin);
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-}));
+// Fix preflight errors
+app.options("*", cors());
 
 // Middleware
 app.use(cors({
