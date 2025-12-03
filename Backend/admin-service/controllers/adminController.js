@@ -75,4 +75,15 @@ async function createEvent(req, res){
     }
 }
 
-module.exports = {createEvent};
+async function resetDatabase(req, res) {
+    try {
+        const { initializeDatabase } = require('../setup');
+        await initializeDatabase();
+        res.status(200).json({ message: 'Database cleared and reset successfully' });
+    } catch (err) {
+        console.error("Failed to reset database:", err.message);
+        res.status(500).json({ error: "Server error" });
+    }
+}
+
+module.exports = {createEvent, resetDatabase};

@@ -11,5 +11,6 @@ const router = express.Router();
 const adminController = require('../controllers/adminController');
 
 router.post('/events', adminController.createEvent);
+router.post('/reset-database', adminController.resetDatabase);
 
 module.exports = router;
