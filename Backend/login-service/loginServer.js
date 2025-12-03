@@ -95,7 +95,7 @@ const routes = require('./routes/loginRoute'); // use your login routes
 const { initializeDatabase } = require("./setup");
 
 // Replace with your actual Vercel frontend URL
-const FRONTEND_URL = "https://tigertixorg-dmisyuks-projects.vercel.app/";
+const FRONTEND_URL = "https://tigertixorg.vercel.app/";
 
 // Middleware
 app.use(cors({

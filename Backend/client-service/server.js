@@ -77,7 +77,7 @@ const routes = require('./routes/clientRoutes');
 const { initializeDatabase } = require("./setup");
 
 // Replace with your actual Vercel frontend URL
-const FRONTEND_URL = "https://tigertixorg-dmisyuks-projects.vercel.app/";
+const FRONTEND_URL = "https://tigertixorg.vercel.app/";
 
 // Middleware
 app.use(cors({
