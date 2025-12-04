@@ -308,7 +308,7 @@ function App() {
               <li key={ev.event_id} className="event-card">
                 <article>
                   <h3>{ev.event_name}</h3>
-                  <p>Date: {ev.event_date}</p>
+                  <p>Date: {ev.event_date.split('T')[0]}</p>
                   <p>Location: {ev.event_location}</p>
                   <p>Tickets Available: {ev.event_tickets}</p>
                   <button
