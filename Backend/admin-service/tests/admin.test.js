@@ -1,6 +1,6 @@
 const request = require("supertest");
-const app = require("./server");  // exports your Express app
-const { initializeDatabase } = require("./setup");
+const app = require("../server");  // exports your Express app
+const { initializeDatabase } = require("../setup");
 
 beforeAll(async () => {
   await initializeDatabase();
