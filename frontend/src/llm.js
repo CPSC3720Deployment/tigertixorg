@@ -444,7 +444,7 @@ function LLM({ events, setEvents }) {
           const eventList = data.events
             .map(
               (e) =>
-                `${e.event_name} on ${e.event_date} at ${e.event_location} (${e.event_tickets} tickets available)`
+                `${e.event_name} on ${e.event_date.split('T')[0]} at ${e.event_location} (${e.event_tickets} tickets available)`
             )
             .join("\n");
           addMessage("ai", `Here are the events:\n${eventList}`);
