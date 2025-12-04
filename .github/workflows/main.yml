@@ -13,7 +13,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [18.x, 20.x]  
+        node-version: [18.x, 20.x]
     
     steps:
     - uses: actions/checkout@v4
@@ -22,10 +22,8 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: backend/package-lock.json
     
-    # Backend Tests
+    # Backend
     - name: Install backend dependencies
       run: cd backend && npm install
     
@@ -42,7 +40,7 @@ jobs:
         DATABASE_PATH: ./test.sqlite
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
     
-    # Frontend Tests
+    # Frontend
     - name: Install frontend dependencies
       run: cd frontend && npm install
     
@@ -60,6 +58,3 @@ jobs:
     steps:
     - name: Trigger Railway Deployment
       run: curl -X POST "${{ secrets.RAILWAY_DEPLOY_HOOK }}"
-    
-    - name: Deployment triggered
-      run: echo "Railway deployment triggered"
