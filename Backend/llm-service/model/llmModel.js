@@ -96,16 +96,6 @@
 const pool = require('../db');
 
 /**
- * Normalize date to YYYY-MM-DD
- * @param {string} dateString
- * @returns {string}
- */
-function normalizeDate(dateString) {
-  if (!dateString) return null;
-  return dateString.split('T')[0]; // remove timestamp if present
-}
-
-/**
  * Finds an event by name
  */
 async function getEventByName(event_name) {
@@ -113,13 +103,7 @@ async function getEventByName(event_name) {
     'SELECT * FROM Event WHERE event_name = $1',
     [event_name]
   );
-  if (!res.rows[0]) return null;
-
-  const ev = res.rows[0];
-  return {
-    ...ev,
-    event_date: normalizeDate(ev.event_date)
-  };
+  return res.rows[0] || null;
 }
 
 /**
@@ -130,10 +114,7 @@ async function getEventsByDate(date) {
     'SELECT * FROM Event WHERE event_date = $1',
     [date]
   );
-  return res.rows.map(ev => ({
-    ...ev,
-    event_date: normalizeDate(ev.event_date)
-  }));
+  return res.rows;
 }
 
 /**
@@ -151,9 +132,7 @@ async function decrementTickets(event_id, tickets) {
   if (res.rowCount === 0) {
     throw new Error("Not enough tickets available or event not found.");
   }
-
-  const ev = res.rows[0];
-  return { ...ev, event_date: normalizeDate(ev.event_date) };
+  return res.rows[0];
 }
 
 /**
