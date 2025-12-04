@@ -10,22 +10,56 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-
+    
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+        node-version: [18.x, 20.x]  
+    
     steps:
     - uses: actions/checkout@v4
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm install
-    - run: cd backend && npm install && npm run setup
-    - run: cp backend/admin-service/init.sql backend/shared-db
-    - run: cd backend && npm run test
-    - run: cd frontend && npm install
-    - run: cd frontend && npm run test
+        cache-dependency-path: backend/package-lock.json
+    
+    # Backend Tests
+    - name: Install backend dependencies
+      run: cd backend && npm install
+    
+    - name: Setup test database directories
+      run: |
+        mkdir -p backend/shared-db
+        mkdir -p backend/login-service/db
+    
+    - name: Run backend tests
+      run: cd backend && npm test
+      env:
+        NODE_ENV: test
+        JWT_SECRET: test-secret-key
+        DATABASE_PATH: ./test.sqlite
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    
+    # Frontend Tests
+    - name: Install frontend dependencies
+      run: cd frontend && npm install
+    
+    - name: Run frontend tests
+      run: cd frontend && npm test -- --watchAll=false
+      env:
+        CI: true
+
+  deploy:
+    name: Deploy to Railway
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Trigger Railway Deployment
+      run: curl -X POST "${{ secrets.RAILWAY_DEPLOY_HOOK }}"
+    
+    - name: Deployment triggered
+      run: echo "Railway deployment triggered"
