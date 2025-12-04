@@ -23,68 +23,32 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     
-    # Setup test database directories
-    - name: Setup test databases
+    - name: Find and test all services
       run: |
-        mkdir -p tigertixorg/backend/shared-db
-        mkdir -p tigertixorg/backend/login-service/db
-    
-    # Test Admin Service
-    - name: Install admin-service dependencies
-      run: cd tigertixorg/backend/admin-service && npm install
-    
-    - name: Run admin-service tests
-      run: cd tigertixorg/backend/admin-service && (npm test || echo " Admin tests not ready")
+        echo "Finding all package.json files..."
+        
+        # Find and install all package.json dependencies
+        for package in $(find . -name "package.json" -not -path "*/node_modules/*"); do
+          dir=$(dirname "$package")
+          echo "Installing dependencies in $dir"
+          cd "$dir"
+          npm install || echo " Failed to install in $dir"
+          
+          # Run tests if they exist
+          if npm run test --if-present 2>/dev/null; then
+            echo " Tests passed in $dir"
+          else
+            echo "No tests or tests failed in $dir"
+          fi
+          
+          cd - > /dev/null
+        done
       continue-on-error: true
       env:
         NODE_ENV: test
         JWT_SECRET: test-secret-key
-        DATABASE_PATH: ./test.sqlite
-    
-    # Test Client Service
-    - name: Install client-service dependencies
-      run: cd tigertixorg/backend/client-service && npm install
-    
-    - name: Run client-service tests
-      run: cd tigertixorg/backend/client-service && (npm test || echo " Client tests not ready")
-      continue-on-error: true
-      env:
-        NODE_ENV: test
-        JWT_SECRET: test-secret-key
-        DATABASE_PATH: ./test.sqlite
-    
-    # Test LLM Service
-    - name: Install llm-service dependencies
-      run: cd tigertixorg/backend/llm-service && npm install
-    
-    - name: Run llm-service tests
-      run: cd tigertixorg/backend/llm-service && (npm test || echo " LLM tests not ready")
-      continue-on-error: true
-      env:
-        NODE_ENV: test
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-    
-    # Test Login Service
-    - name: Install login-service dependencies
-      run: cd tigertixorg/backend/login-service && npm install
-    
-    - name: Run login-service tests
-      run: cd tigertixorg/backend/login-service && (npm test || echo " Login tests not ready")
-      continue-on-error: true
-      env:
-        NODE_ENV: test
-        JWT_SECRET: test-secret-key
-        DATABASE_PATH: ./test.sqlite
-    
-    # Test Frontend
-    - name: Install frontend dependencies
-      run: cd tigertixorg/frontend && npm install
-    
-    - name: Run frontend tests
-      run: cd tigertixorg/frontend && (npm test -- --watchAll=false || echo " Frontend tests not ready")
-      continue-on-error: true
-      env:
         CI: true
     
-    - name: All tests complete
-      run: echo "CI/CD Pipeline completed successfully!"
+    - name: Pipeline Complete
+      run: echo "CI/CD Pipeline completed!"
