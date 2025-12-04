@@ -433,7 +433,7 @@ function LLM({ events, setEvents }) {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${LLM_API}/llm/parse`, { text: textToSend });
+      const res = await axios.post(`${LLM_API}/api/llm/parse`, { text: textToSend });
       const data = res.data;
 
       if (data.intent === "book_tickets" && data.message) {
@@ -466,7 +466,7 @@ function LLM({ events, setEvents }) {
     addMessage("user", "Yes, confirm booking");
 
     try {
-      const res = await axios.post(`${LLM_API}/llm/confirm`, proposedBooking);
+      const res = await axios.post(`${LLM_API}/api/llm/confirm`, proposedBooking);
       addMessage("ai", res.data.message || "Booking confirmed!");
       if (setEvents) {
         setEvents((prevEvents) =>
