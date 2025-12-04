@@ -20,7 +20,7 @@ async function createEvent(req, res){
         //validation to make sure each field is inserted
         if(!event_name || !event_date || !event_tickets || !event_location)
         {
-            return res.status(400).json({error: 'You have a missing field that is required'});
+            return res.status(400).json({error: 'You have a missing field that is required.'});
 
         }
 
