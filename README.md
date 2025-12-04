@@ -1,5 +1,7 @@
 Link to the website: https://tigertixorg.vercel.app/
 
+<img width="1238" height="852" alt="Screenshot 2025-12-03 222240" src="https://github.com/user-attachments/assets/02e6f0c2-5746-45e1-97de-b21c36399bf4" />
+
 Project Overview
 Tiger Tix is a web app that allows a customer to register for an account, login, and purchase tickets for special events. Tiger Tix is built using node.js, and react for the frontend. The backend of Tiger Tix is split into four microservices that are independent of each other, so if one goes down all will continue to function. The backends include an admin service, client service, login service, and llm service. Our admin server is for the purpose of inserting event tables into our shared database. Our client service handles the purchasing of tickets. Our login service handles registering for a new account, and logging into our website, by accessing usernames from a database. Finally, our llm service handles prompts that the user can ask our AI assistant. Our web app has an AI assistant that can give information on events held on a certain date,  help to purchase tickets, and confirm purchases.
 
@@ -33,6 +35,9 @@ Authentication → React → login-service → login.sqlite, with JWTs validated
 Installation & Setup instructions
 To run TigerTix, you need Node.js installed on your computer. Once you download the project, each microservice and the frontend must be set up individually. Start by cloning or downloading the project folder from your team’s repository and opening it on your computer. Each part of the system (Admin Service, Client Service, login-service, LLM service, and the React frontend) contains its own folder. Enter each folder and install its dependencies.
 
+<img width="753" height="593" alt="Screenshot 2025-12-03 222157" src="https://github.com/user-attachments/assets/26d25e3e-1e85-4893-bc2b-a2cf24c9d495" />
+
+
 Core Server & Web Tools
 Express – handles server routes and API endpoints
 Cors – allows communication between frontend and backend
@@ -63,6 +68,7 @@ Cd into the test folder to run our automated tests and type node seleniumbooking
 In the root directory run npm test and it will run each section of our tests. Front end will run first, then each backend test like admin, client, login, llm.
 
 
+<img width="1116" height="655" alt="Screenshot 2025-12-03 222112" src="https://github.com/user-attachments/assets/aee0e9b0-f037-4982-9733-58f66b23f8f6" />
 
 
 
