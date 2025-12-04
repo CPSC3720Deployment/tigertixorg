@@ -26,7 +26,7 @@ beforeAll(async () => {
  */
 describe("Admin Microservice - Event Creation", () => {
 
-  test("creates a valid event successfully", async () => {
+  test("creates a valid event successfully.", async () => {
     const res = await request(app)
       .post("/api/admin/events")
       .send({
